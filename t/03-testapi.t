@@ -819,7 +819,7 @@ sub script_output_test ($is_serial_terminal) {
     is(script_output('echo foo', quiet => 1), 'foo', '');
 
     $mock_testapi->redefine(wait_serial => "This is a simulated output on the serial dev\nXXXfoo\nSCRIPT_FINISHEDXXX-0-\nand more here");
-    is(script_output('echo foo', type_command => 0), 'foo', '');
+    is script_output('echo foo', type_command => 0), 'foo', '';
 }
 
 subtest 'script_output' => sub {
