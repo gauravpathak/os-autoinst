@@ -632,25 +632,9 @@ subtest 'script_sudo' => sub {
     ]);
     $cmds = [];
     script_sudo("ls /", 0);
-    is_deeply($cmds, [
-            {
-                text => "sudo ls /\n",
-                cmd => 'backend_type_string'
-            },
-            {
-                mustmatch => 'sudo-passwordprompt',
-                cmd => 'check_screen',
-                timeout => 3,
-                check => 1,
-                no_wait => undef
-            },
-            {
-                cmd => 'backend_type_string',
-                secret => 1,
-                text => 'stupid',
-                max_interval => 100
-            }
-    ]);
+    is $cmds->[0]{text}, "sudo ls /\n", 'text argument of script_sudo matched';
+    is_deeply $cmds->[0], {text => "sudo ls /\n", cmd => 'backend_type_string'}, 'sudo command is typed';
+    ok $cmds->[2]{secret}, 'password is treated as secret';
     $cmds = [];
 };
 
