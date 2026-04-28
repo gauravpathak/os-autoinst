@@ -233,6 +233,7 @@ configure_openvswitch() {
     echo "OS_AUTOINST_USE_BRIDGE=$bridge" > /etc/sysconfig/os-autoinst-openvswitch
     systemctl enable os-autoinst-openvswitch
     systemctl restart openvswitch os-autoinst-openvswitch
+    systemctl is-enabled --quiet $1 && systemctl restart $1
 }
 
 determine_ethernet_interface() {
@@ -267,7 +268,7 @@ main() {
             setup_multi_machine_with_networkmanager
             ;;
     esac
-    configure_openvswitch
+    configure_openvswitch "$network"
 }
 
 caller 0 > /dev/null || main "$@"
